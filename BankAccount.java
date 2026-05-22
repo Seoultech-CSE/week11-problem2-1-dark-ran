@@ -6,7 +6,7 @@ class InsufficientBalanceException extends Exception {
     private double amount;
 
     public InsufficientBalanceException(double balance, double amount) {
-        super("Insufficient balance. Current balance: $" + balance + ", Requested amount: $" + amount);
+        super("Insufficient balance. Current: $" + balance + ", Requested: $" + amount);
         this.balance = balance;
         this.amount = amount;
     }
@@ -33,7 +33,7 @@ public class BankAccount {
 
     public void deposit(double amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException("Deposit amount must be greater than 0.");
+            throw new IllegalArgumentException("Deposit amount must be positive.");
         }
 
         balance += amount;
@@ -57,10 +57,10 @@ public class BankAccount {
             double depositAmount = input.nextDouble();
             account.deposit(depositAmount);
         } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a numeric value.");
+            System.out.println("Input Error: Invalid format. A numeric value is required.");
             input.nextLine();
         } catch (IllegalArgumentException e) {
-            System.out.println("Deposit failed: " + e.getMessage());
+            System.out.println("Business Rule Violation: " + e.getMessage());
         } finally {
             System.out.println("[Current Balance Status] $" + account.getBalance());
         }
@@ -69,10 +69,10 @@ public class BankAccount {
             double withdrawAmount = input.nextDouble();
             account.withdraw(withdrawAmount);
         } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a numeric value.");
+            System.out.println("Input Error: Invalid format. A numeric value is required.");
             input.nextLine();
         } catch (InsufficientBalanceException e) {
-            System.out.println("Withdrawal failed: " + e.getMessage());
+            System.out.println("Transaction Denied: " + e.getMessage());
         } finally {
             System.out.println("[Current Balance Status] $" + account.getBalance());
         }
