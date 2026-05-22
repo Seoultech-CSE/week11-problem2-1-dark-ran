@@ -1,8 +1,7 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
-// 1. Custom Checked Exception Class
-class InsufficientBalanceException extends Exception { 
+class InsufficientBalanceException extends Exception {
     private double balance;
     private double amount;
 
@@ -12,16 +11,15 @@ class InsufficientBalanceException extends Exception {
         this.amount = amount;
     }
 
-    public double getBalance() { 
-        return balance; 
+    public double getBalance() {
+        return balance;
     }
 
-    public double getAmount() { 
-        return amount; 
+    public double getAmount() {
+        return amount;
     }
 }
 
-// 2. Integrated Core Class
 public class BankAccount {
     private double balance;
 
@@ -53,42 +51,32 @@ public class BankAccount {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        BankAccount account = new BankAccount(500.0); 
+        BankAccount account = new BankAccount(500.0);
 
-        System.out.println("=== Welcome to the Interactive Banking System ===");
-        System.out.println("Initial Balance: $500.0");
-
-        // --- DEPOSIT PROCESS ---
         try {
-            System.out.print("\nEnter the amount to DEPOSIT: ");
             double depositAmount = input.nextDouble();
             account.deposit(depositAmount);
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a numeric value.");
-            input.nextLine(); // discard invalid input
+            input.nextLine();
         } catch (IllegalArgumentException e) {
             System.out.println("Deposit failed: " + e.getMessage());
         } finally {
-            System.out.println("Current Balance: $" + account.getBalance());
+            System.out.println("[Current Balance Status] $" + account.getBalance());
         }
 
-        // --- WITHDRAWAL PROCESS ---
         try {
-            System.out.print("\nEnter the amount to WITHDRAW: ");
             double withdrawAmount = input.nextDouble();
             account.withdraw(withdrawAmount);
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a numeric value.");
-            input.nextLine(); // discard invalid input
+            input.nextLine();
         } catch (InsufficientBalanceException e) {
             System.out.println("Withdrawal failed: " + e.getMessage());
-            System.out.println("Available Balance: $" + e.getBalance());
-            System.out.println("Requested Amount: $" + e.getAmount());
         } finally {
-            System.out.println("Current Balance: $" + account.getBalance());
+            System.out.println("[Current Balance Status] $" + account.getBalance());
         }
 
-        System.out.println("\n=== Thank you for using our service ===");
         input.close();
     }
 }
